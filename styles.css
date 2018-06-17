@@ -1,0 +1,70 @@
+body {
+  width, height: auto;
+  /* background-color: #eddfba; */
+  /* background-image: url(https://i.kinja-img.com/gawker-media/image/upload/s--Gh-Fga97--/c_scale,f_auto,fl_progressive,q_80,w_800/793701290837284528.jpg); */
+  background: url(https://focusme.com/wp-content/uploads/2016/09/tomato-1235662.jpg);
+}
+
+.container {
+  padding-top: 10%;
+  margin: 0;
+  width: 100%; height: 100%;
+  text-align: center;
+  font-size: 60px;
+  font-family: Orbitron;
+  /* background-color: grey; */
+  color: white;
+  font-weight: 600;
+}
+.timeset, .counter {
+  display: block;
+  width: 400px;
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  font-weight: normal;
+}
+.timeset {
+  height: 70px;
+  margin: 50px auto 0 auto;
+}
+.counter {
+  height: 150px;
+  margin: 20px auto;
+}
+.timeset table, .counter table {
+  width: 100%; height: 100%;
+}
+.timeset table tr th {
+  width: 50%;
+  text-align: center;
+  font-weight: normal;
+}
+.timeset table tr td {
+  width: 16.66%;
+  text-align: center;
+}
+
+table, th, tr, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.counter table tr td {
+  width: 50%;
+  text-align: center;
+}
+button {
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 1em;
+  font-family: inherit;
+}
+
+button:hover {
+  background-color: grey;
+}
+.current-status, .timer-value {
+  font-size: 30px;
+}
