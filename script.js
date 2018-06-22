@@ -1,57 +1,51 @@
 // initialization
-var sessionPaused = false;
-var sessionStarted = false;
-var sessionLength = 25*60;
-var breakLength = 5*60;
+$(document).ready(() => {
+  var sessionPaused = false;
+  var sessionStarted = false;
+  var sessionLength = 25*60;
+  var breakLength = 5*60;
 
 
 // session length time
-var sessionLengthTime = document.querySelector('.session-length.time');
-refreshSessionLengthTime();
-
-var sessionLengthDecrease = document.querySelector('.session-length.decrease');
-sessionLengthDecrease.addEventListener('click', (e) => {
-  sessionLength = fixRange(sessionLength - 60);
-  refreshTimerValue();
   refreshSessionLengthTime();
-});
 
-var sessionLengthIncrease = document.querySelector('.session-length.increase');
-sessionLengthIncrease.addEventListener('click', (e) => {
-  sessionLength = fixRange(sessionLength + 60);
-  refreshTimerValue();
-  refreshSessionLengthTime();
-});
+  $('.session-length.decrease').on('click', (e) => {
+    sessionLength = fixRange(sessionLength - 60);
+    refreshSessionLengthTime();
+  });
 
-function refreshSessionLengthTime() {
-  sessionLengthTime.textContent = getMinutes(sessionLength);
-}
+  $('.session-length.increase').on('click', (e) => {
+    sessionLength = fixRange(sessionLength + 60);
+    refreshSessionLengthTime();
+  });
 
+  function refreshSessionLengthTime() {
+    $('.session-length.time').text(getMinutes(sessionLength));
+  }
+
+//*****************************
+
+
+//*******************************
 // break length time
-var breakLengthTime = document.querySelector('.break-length.time');
 refreshBreakLengthTime();
 
-var breakLengthDecrease = document.querySelector('.break-length.decrease');
-breakLengthDecrease.addEventListener('click', (e) => {
+$('.break-length.decrease').on('click', (e) => {
   breakLength = fixRange(breakLength - 60);
-  refreshTimerValue();
   refreshBreakLengthTime();
 });
 
-var breakLengthIncrease = document.querySelector('.break-length.increase');
-breakLengthIncrease.addEventListener('click', (e) => {
+$('.break-length.increase').on('click', (e) => {
   breakLength = fixRange(breakLength + 60);
-  refreshTimerValue();
   refreshBreakLengthTime();
 });
 
 function refreshBreakLengthTime() {
-  breakLengthTime.textContent = getMinutes(breakLength);
+  $('.break-length.time').text(getMinutes(breakLength));
 }
 
-// pause
-var pauseButton = document.querySelector('.pause');
-pauseButton.addEventListener('click', (e) => {
+// pause button
+$('.pause').on('click', (e) => {
   pauseTimer();
 });
 
@@ -66,15 +60,14 @@ function pauseTimer() {
   }
 }
 
-var startButton = document.querySelector('.start-session');
-startButton.addEventListener('click', (e) => {
+//start button
+$('.start-session').on('click', (e) => {
   if (!sessionStarted) {
     startSession();
   }
 });
 
-var timerValue = document.querySelector('.timer-value');
-timerValue.textContent = toTime(getMinutes(sessionLength), getSeconds(sessionLength));
+$('.timer-value').text(toTime(getMinutes(sessionLength), getSeconds(sessionLength)));
 var loop;
 function startSession() {
   // var timerValue = document.querySelector('.timer-value');
@@ -86,7 +79,7 @@ function startSession() {
 }
 
 function refreshTimerValue() {
-  timerValue.textContent = toTime(getMinutes(sessionLength), getSeconds(sessionLength));
+  $('.timer-value').text(toTime(getMinutes(sessionLength), getSeconds(sessionLength)));
 }
 
 function getMinutes(seconds) {
@@ -114,3 +107,4 @@ function addZero(string) {
 function fixRange(time) {
   return (time > 59*60 ? 60 : (time < 60 ? 59*60 : time));
 }
+});
