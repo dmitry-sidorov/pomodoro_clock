@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 $(document).ready(() => {
   //initialization
+=======
+// initialization
+$(document).ready(() => {
+>>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
   var sessionPaused = false;
   var sessionStarted = false;
   var sessionLength = 25*60;
@@ -7,7 +12,11 @@ $(document).ready(() => {
 
 
 // session length time
+<<<<<<< HEAD
   // refreshSessionLengthTime();
+=======
+  refreshSessionLengthTime();
+>>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
 
   $('.session-length.decrease').on('click', (e) => {
     sessionLength = fixRange(sessionLength - 60);
@@ -18,13 +27,28 @@ $(document).ready(() => {
     sessionLength = fixRange(sessionLength + 60);
     refreshSessionLengthTime();
   });
+<<<<<<< HEAD
+
+  function refreshSessionLengthTime() {
+    $('.session-length.time').text(getMinutes(sessionLength));
+  }
+=======
+>>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
 
   function refreshSessionLengthTime() {
     $('.session-length.time').text(getMinutes(sessionLength));
   }
 
+//*****************************
+
+
+//*******************************
 // break length time
+<<<<<<< HEAD
 // refreshBreakLengthTime();
+=======
+refreshBreakLengthTime();
+>>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
 
 $('.break-length.decrease').on('click', (e) => {
   breakLength = fixRange(breakLength - 60);
