@@ -1,104 +1,161 @@
-<<<<<<< HEAD
 $(document).ready(() => {
   //initialization
-=======
-// initialization
-$(document).ready(() => {
->>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
-  var sessionPaused = false;
-  var sessionStarted = false;
-  var sessionLength = 25*60;
-  var breakLength = 5*60;
+  var status = {
+    state: "session",
+    started: false,
+    paused: false,
+    timerValue: 25*60
+  }
+  var set = {
+    sessionLength: 2*60,
+    breakLength: 1*60
+  }
+  var count = {
+    sessions: 0,
+    breaks: 0
+  }
 
+  var speed = 1;
 
 // session length time
-<<<<<<< HEAD
-  // refreshSessionLengthTime();
-=======
+  refreshTimerValue();
   refreshSessionLengthTime();
->>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
 
   $('.session-length.decrease').on('click', (e) => {
-    sessionLength = fixRange(sessionLength - 60);
+    set.sessionLength = fixRange(set.sessionLength - 60);
     refreshSessionLengthTime();
   });
 
   $('.session-length.increase').on('click', (e) => {
-    sessionLength = fixRange(sessionLength + 60);
+    set.sessionLength = fixRange(set.sessionLength + 60);
     refreshSessionLengthTime();
   });
-<<<<<<< HEAD
 
   function refreshSessionLengthTime() {
-    $('.session-length.time').text(getMinutes(sessionLength));
-  }
-=======
->>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
-
-  function refreshSessionLengthTime() {
-    $('.session-length.time').text(getMinutes(sessionLength));
+    $('.session-length.time').text(getMinutes(set.sessionLength));
   }
 
-//*****************************
-
-
-//*******************************
 // break length time
-<<<<<<< HEAD
-// refreshBreakLengthTime();
-=======
 refreshBreakLengthTime();
->>>>>>> cb0a4144ba229416b1c19087b8c9f10788f48397
 
 $('.break-length.decrease').on('click', (e) => {
-  breakLength = fixRange(breakLength - 60);
+  set.breakLength = fixRange(set.breakLength - 60);
   refreshBreakLengthTime();
 });
 
 $('.break-length.increase').on('click', (e) => {
-  breakLength = fixRange(breakLength + 60);
+  set.breakLength = fixRange(set.breakLength + 60);
   refreshBreakLengthTime();
 });
 
 function refreshBreakLengthTime() {
-  $('.break-length.time').text(getMinutes(breakLength));
+  $('.break-length.time').text(getMinutes(set.breakLength));
 }
 
 // pause button
 $('.pause').on('click', (e) => {
-  pauseTimer();
+  pause();
 });
 
-function pauseTimer() {
-  if (sessionPaused == false) {
+var blink;
+function pause() {
+  if (!status.paused) {
     clearInterval(loop);
-    sessionStarted = false;
-    sessionPaused == true;
+    status.paused = true;
+    // blink = setInterval(function() {
+    //   $(".timer-value").fadeTo(200, 0.1).fadeTo(400, 1.0);
+    // }, 200);
   } else {
-    startSession();
-    sessionPaused = false;
+    start();
+    // clearInterval(blink);
+    status.paused = false;
   }
 }
 
 //start button
-$('.start-session').on('click', (e) => {
-  if (!sessionStarted) {
-    startSession();
+$('.start').on('click', (e) => {
+  if (!status.started) {
+    start();
   }
 });
 
-$('.timer-value').text(toTime(getMinutes(sessionLength), getSeconds(sessionLength)));
+//stop button
+$('.stop').on('click', (e) =>{
+  stop();
+});
+
+//refresh button
+$('.refresh').on('click', (e) => {
+  stop();
+  count.sessions = 0;
+  refreshSessionCounter();
+  count.breaks = 0;
+  refreshBreakCounter();
+});
+
+
+// refreshTimerValue();
+// $('.timer-value').text(toTime(getMinutes(sessionLength), getSeconds(sessionLength)));
 var loop;
-function startSession() {
-      sessionStarted = true;
-      loop = setInterval(function() {
-      sessionLength -= 1;
-      refreshTimerValue();
-    }, 1000);
+function start() {
+  refreshStatus();
+  if (!status.started) {
+    status.timerValue = set.sessionLength;
+  }
+  status.started = true;
+  loop = setInterval(function() {
+    status.timerValue -= 1;
+    refreshTimerValue();
+    checkEnd();
+  }, 1000/speed);
+}
+
+function stop() {
+  status.started = false;
+  status.paused = false;
+  status.state = "session";
+  status.timerValue = set.sessionLength;
+  refreshTimerValue();
 }
 
 function refreshTimerValue() {
-  $('.timer-value').text(toTime(getMinutes(sessionLength), getSeconds(sessionLength)));
+  if (!status.started) {
+    switch (status.state) {
+      case "session": status.timerValue = set.sessionLength;
+      break;
+      case "break": status.timerValue = set.breakLength;
+      default: return "timer value refresh failed";
+    }
+  }
+  $('.timer-value').text(toTime(status.timerValue));
+}
+
+function checkEnd() {
+  if (status.timerValue == 0) {
+    if (status.state == "session") {
+      status.state = "break";
+      status.timerValue = set.breakLength;
+      count.sessions += 1;
+      refreshSessionCounter();
+      // $('.status').text(status.state.capitalize());
+      refreshStatus();
+    } else {
+      status.state = "session";
+      status.timerValue = set.sessionLength;
+      count.breaks += 1;
+      refreshBreakCounter();
+      // $('.status').text(status.state.capitalize());
+      refreshStatus();
+    }
+  }
+}
+
+function refreshSessionCounter() {
+  $('.session-counter').text(count.sessions);
+}
+
+function refreshBreakCounter() {
+  $('.break-counter').text(count.breaks);
 }
 
 function getMinutes(seconds) {
@@ -109,8 +166,8 @@ function getSeconds(seconds) {
   return (seconds % 60);
 }
 
-function toTime(minutes, seconds) {
-  return (addZero(minutes) + ":" + addZero(seconds));
+function toTime(time) {
+  return (addZero(getMinutes(time)) + ":" + addZero(getSeconds(time)));
 }
 
 function addZero(string) {
@@ -125,5 +182,14 @@ function addZero(string) {
 
 function fixRange(time) {
   return (time > 59*60 ? 60 : (time < 60 ? 59*60 : time));
+}
+
+
+function refreshStatus() {
+  $('.status').text(status.state.capitalize());
+}
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }
 });
