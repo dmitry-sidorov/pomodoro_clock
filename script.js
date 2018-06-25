@@ -15,7 +15,7 @@ $(document).ready(() => {
     breaks: 0
   }
 
-  var speed = 1;
+  var speed = 20;
 
 // session length time
   refreshTimerValue();
@@ -62,13 +62,15 @@ function pause() {
   if (!status.paused) {
     clearInterval(loop);
     status.paused = true;
-    // blink = setInterval(function() {
-    //   $(".timer-value").fadeTo(200, 0.1).fadeTo(400, 1.0);
-    // }, 200);
+    blink = setInterval(function() {
+      $(".timer-value").fadeTo(300, 0.1).fadeTo(300, 1.0);
+      $(".pause").fadeTo(300, 0.1).fadeTo(300, 1.0);
+    }, 600);
   } else {
     start();
-    // clearInterval(blink);
+    clearInterval(blink);
     status.paused = false;
+    refreshStatus();
   }
 }
 
@@ -94,8 +96,9 @@ $('.refresh').on('click', (e) => {
 });
 
 
-// refreshTimerValue();
+refreshTimerValue();
 // $('.timer-value').text(toTime(getMinutes(sessionLength), getSeconds(sessionLength)));
+
 var loop;
 function start() {
   refreshStatus();
