@@ -5,7 +5,8 @@
 
 body {
   width, height: auto;
-  background: url(images/tomatos-background.jpg);
+    background: url(images/tomatos-background.jpg);
+    background-size: cover;
 }
 
 .container {
